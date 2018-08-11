@@ -16,3 +16,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.10.0'
 }
+
+test {
+    useJUnitPlatform()
+}
