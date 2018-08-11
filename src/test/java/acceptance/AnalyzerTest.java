@@ -1,5 +1,9 @@
-package org.evolutionary;
+package acceptance;
 
+import org.evolutionary.Analyzer;
+import org.evolutionary.PictureContent;
+import org.evolutionary.SafeBox;
+import org.evolutionary.SearchEngine;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
