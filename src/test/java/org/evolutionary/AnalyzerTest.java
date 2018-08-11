@@ -37,7 +37,7 @@ class AnalyzerTest {
     void should_upload_one_file_to_the_safeBox_when_the_pictures_directory_contains_only_one_picture_file() {
         // Given
         String pathToPicture = "/users/me/pictures/top-secret.jpeg";
-        List<String> allPathsInPicturesDirectory = singletonList(pathToPicture);
+        List<File> allPathsInPicturesDirectory = singletonList(new File(null, pathToPicture));
         given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
@@ -53,7 +53,7 @@ class AnalyzerTest {
         // Given
         String pathToFirstPicture = "/users/me/pictures/top-secret.jpeg";
         String pathToSecondPicture = "/users/me/pictures/confidential.jpeg";
-        List<String> allPathsInPicturesDirectory = asList(pathToFirstPicture, pathToSecondPicture);
+        List<File> allPathsInPicturesDirectory = asList(new File(null, pathToFirstPicture), new File(null, pathToSecondPicture));
         given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
@@ -69,7 +69,7 @@ class AnalyzerTest {
     void should_send_the_url_of_the_uploaded_picture_to_the_search_engine() {
         // Given
         String pathToPicture = "/users/me/pictures/top-secret.jpeg";
-        List<String> allPathsInPicturesDirectory = singletonList(pathToPicture);
+        List<File> allPathsInPicturesDirectory = singletonList(new File(null, pathToPicture));
         given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
@@ -87,7 +87,7 @@ class AnalyzerTest {
     @Test
     void should_index_in_the_search_engine_the_urls_of_all_the_uploaded_pictures() {
         // Given
-        List<String> allPathsInPicturesDirectory = asList("/pic1", "/pic2", "/pic3");
+        List<File> allPathsInPicturesDirectory = asList(new File(null, "/pic1"), new File(null, "/pic2"), new File(null, "/pic3"));
         given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
@@ -111,11 +111,12 @@ class AnalyzerTest {
     @Test
     void should_index_in_the_search_engine_the_recognized_text_in_the_picture() {
         // Given
-        String textInPicture = "recognized text in the picture";
         String pathToPictureFile = "/pic1.jpeg";
-        List<String> allPathsInPicturesDirectory = singletonList(pathToPictureFile);
+        List<File> allPathsInPicturesDirectory = singletonList(new File(null, pathToPictureFile));
         given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
+
+        String textInPicture = "recognized text in the picture";
         given(opticalCharacterRecognition.imageToText(pathToPictureFile))
                 .willReturn(textInPicture);
 
@@ -125,13 +126,12 @@ class AnalyzerTest {
         // Then
         then(searchEngine).should()
                 .index(argThat(pictureContent -> pictureContent.getDescription().equals(textInPicture)));
-
     }
 
     @Test
     void should_index_in_the_search_engine_the_recognized_text_from_each_picture() {
         // Given
-        List<String> allPathsInPicturesDirectory = asList("/pic1.jpeg", "/pic2.jpeg", "/pic3.jpeg");
+        List<File> allPathsInPicturesDirectory = asList(new File(null, "/pic1.jpeg"), new File(null, "/pic2.jpeg"), new File(null, "/pic3.jpeg"));
         given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
@@ -153,5 +153,22 @@ class AnalyzerTest {
                 .index(argThat(pictureContent -> pictureContent.getDescription().equals(textInPicture2)));
         then(searchEngine).should()
                 .index(argThat(pictureContent -> pictureContent.getDescription().equals(textInPicture3)));
+    }
+
+    @Test
+    void should_index_in_the_search_engine_the_picture_file_name() {
+        // Given
+        String pathToPictureFile = "/users/me/pictures/pic1.jpeg";
+        String pictureFileName = "pic1.jpeg";
+        List<File> allPathsInPicturesDirectory = singletonList(new File(pictureFileName, pathToPictureFile));
+        given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
+                .willReturn(allPathsInPicturesDirectory);
+
+        // When
+        analyzer.index(PICTURES_DIRECTORY_PATH);
+
+        // Then
+        then(searchEngine).should()
+                .index(argThat(pictureContent -> pictureFileName.equals(pictureContent.getName())));
     }
 }

@@ -15,11 +15,13 @@ public class Analyzer {
     }
 
     public void index(String picturesDirectoryPath) {
-        Iterable<String> pathsToFilesInDirectory = this.finder.listFilePaths(picturesDirectoryPath);
-        for (String pathToPicture : pathsToFilesInDirectory) {
+        Iterable<File> pathsToFilesInDirectory = this.finder.listFilePaths(picturesDirectoryPath);
+        for (File pictureFile : pathsToFilesInDirectory) {
+            String pathToPicture = pictureFile.getPath();
             String publishedPictureUrl = this.safeBox.upload(pathToPicture);
             String textInPicture = this.opticalCharacterRecognition.imageToText(pathToPicture);
-            this.searchEngine.index(new PictureContent(null, publishedPictureUrl, textInPicture));
+            PictureContent content = new PictureContent(pictureFile.getName(), publishedPictureUrl, textInPicture);
+            this.searchEngine.index(content);
         }
     }
 }

@@ -1,7 +1,7 @@
 package org.evolutionary;
 
 public class Finder {
-    public Iterable<String> listFilePaths(String picturesDirectoryPath) {
+    public Iterable<File> listFilePaths(String picturesDirectoryPath) {
         throw new UnsupportedOperationException();
     }
 }
