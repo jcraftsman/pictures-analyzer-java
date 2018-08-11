@@ -13,6 +13,7 @@ public class Analyzer {
     }
 
     public void index(String picturesDirectoryPath) {
-
+        String pathToPicture = this.finder.listFilePaths(picturesDirectoryPath).iterator().next();
+        this.safeBox.upload(pathToPicture);
     }
 }
