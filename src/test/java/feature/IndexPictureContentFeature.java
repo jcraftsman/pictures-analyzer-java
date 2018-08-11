@@ -29,7 +29,8 @@ class IndexPictureContentFeature {
         searchEngine = mock(SearchEngine.class);
         safeBox = mock(SafeBox.class);
         Finder localFilesFinder = new Finder();
-        analyzer = new Analyzer(localFilesFinder, searchEngine, safeBox);
+        OpticalCharacterRecognition opticalCharacterRecognition = new OpticalCharacterRecognition();
+        analyzer = new Analyzer(localFilesFinder, opticalCharacterRecognition, searchEngine, safeBox);
     }
 
     @Test

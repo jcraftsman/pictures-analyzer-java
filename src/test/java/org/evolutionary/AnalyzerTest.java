@@ -22,13 +22,15 @@ class AnalyzerTest {
     private Finder finder;
     private SafeBox safeBox;
     private SearchEngine searchEngine;
+    private OpticalCharacterRecognition opticalCharacterRecognition;
 
     @BeforeEach
     void setUp() {
         searchEngine = mock(SearchEngine.class);
         safeBox = mock(SafeBox.class);
         finder = mock(Finder.class);
-        analyzer = new Analyzer(finder, searchEngine, safeBox);
+        opticalCharacterRecognition = mock(OpticalCharacterRecognition.class);
+        analyzer = new Analyzer(finder, opticalCharacterRecognition, searchEngine, safeBox);
     }
 
     @Test
@@ -104,5 +106,52 @@ class AnalyzerTest {
         then(searchEngine).should().index(argThat(pictureContent -> pictureContent.getUrl().equals(url1)));
         then(searchEngine).should().index(argThat(pictureContent -> pictureContent.getUrl().equals(url2)));
         then(searchEngine).should().index(argThat(pictureContent -> pictureContent.getUrl().equals(url3)));
+    }
+
+    @Test
+    void should_index_in_the_search_engine_the_recognized_text_in_the_picture() {
+        // Given
+        String textInPicture = "recognized text in the picture";
+        String pathToPictureFile = "/pic1.jpeg";
+        List<String> allPathsInPicturesDirectory = singletonList(pathToPictureFile);
+        given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
+                .willReturn(allPathsInPicturesDirectory);
+        given(opticalCharacterRecognition.imageToText(pathToPictureFile))
+                .willReturn(textInPicture);
+
+        // When
+        analyzer.index(PICTURES_DIRECTORY_PATH);
+
+        // Then
+        then(searchEngine).should()
+                .index(argThat(pictureContent -> pictureContent.getDescription().equals(textInPicture)));
+
+    }
+
+    @Test
+    void should_index_in_the_search_engine_the_recognized_text_from_each_picture() {
+        // Given
+        List<String> allPathsInPicturesDirectory = asList("/pic1.jpeg", "/pic2.jpeg", "/pic3.jpeg");
+        given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
+                .willReturn(allPathsInPicturesDirectory);
+
+        String textInPicture1 = "recognized text in the the first picture";
+        String textInPicture2 = "recognized text in the the second picture";
+        String textInPicture3 = "recognized text in the the third picture";
+        given(opticalCharacterRecognition.imageToText(any()))
+                .willReturn(textInPicture1)
+                .willReturn(textInPicture2)
+                .willReturn(textInPicture3);
+
+        // When
+        analyzer.index(PICTURES_DIRECTORY_PATH);
+
+        // Then
+        then(searchEngine).should()
+                .index(argThat(pictureContent -> pictureContent.getDescription().equals(textInPicture1)));
+        then(searchEngine).should()
+                .index(argThat(pictureContent -> pictureContent.getDescription().equals(textInPicture2)));
+        then(searchEngine).should()
+                .index(argThat(pictureContent -> pictureContent.getDescription().equals(textInPicture3)));
     }
 }
