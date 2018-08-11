@@ -37,7 +37,9 @@ class AnalyzerTest {
     void should_upload_one_file_to_the_safeBox_when_the_pictures_directory_contains_only_one_picture_file() {
         // Given
         String pathToPicture = "/users/me/pictures/top-secret.jpeg";
-        List<File> allPathsInPicturesDirectory = singletonList(new File(null, pathToPicture));
+        File pictureFile = File.builder().path(pathToPicture).build();
+        List<File> allPathsInPicturesDirectory = singletonList(pictureFile);
+
         given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
@@ -53,7 +55,9 @@ class AnalyzerTest {
         // Given
         String pathToFirstPicture = "/users/me/pictures/top-secret.jpeg";
         String pathToSecondPicture = "/users/me/pictures/confidential.jpeg";
-        List<File> allPathsInPicturesDirectory = asList(new File(null, pathToFirstPicture), new File(null, pathToSecondPicture));
+        File firstPicture = File.builder().path(pathToFirstPicture).build();
+        File secondPicture = File.builder().path(pathToSecondPicture).build();
+        List<File> allPathsInPicturesDirectory = asList(firstPicture, secondPicture);
         given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
@@ -69,7 +73,8 @@ class AnalyzerTest {
     void should_send_the_url_of_the_uploaded_picture_to_the_search_engine() {
         // Given
         String pathToPicture = "/users/me/pictures/top-secret.jpeg";
-        List<File> allPathsInPicturesDirectory = singletonList(new File(null, pathToPicture));
+        File pictureFile = File.builder().path(pathToPicture).build();
+        List<File> allPathsInPicturesDirectory = singletonList(pictureFile);
         given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
@@ -87,7 +92,10 @@ class AnalyzerTest {
     @Test
     void should_index_in_the_search_engine_the_urls_of_all_the_uploaded_pictures() {
         // Given
-        List<File> allPathsInPicturesDirectory = asList(new File(null, "/pic1"), new File(null, "/pic2"), new File(null, "/pic3"));
+        File picture1 = File.builder().path("/pic1").build();
+        File picture2 = File.builder().path("/pic2").build();
+        File picture3 = File.builder().path("/pic3").build();
+        List<File> allPathsInPicturesDirectory = asList(picture1, picture2, picture3);
         given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
@@ -112,7 +120,8 @@ class AnalyzerTest {
     void should_index_in_the_search_engine_the_recognized_text_in_the_picture() {
         // Given
         String pathToPictureFile = "/pic1.jpeg";
-        List<File> allPathsInPicturesDirectory = singletonList(new File(null, pathToPictureFile));
+        File pictureFile = File.builder().path(pathToPictureFile).build();
+        List<File> allPathsInPicturesDirectory = singletonList(pictureFile);
         given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
@@ -131,7 +140,10 @@ class AnalyzerTest {
     @Test
     void should_index_in_the_search_engine_the_recognized_text_from_each_picture() {
         // Given
-        List<File> allPathsInPicturesDirectory = asList(new File(null, "/pic1.jpeg"), new File(null, "/pic2.jpeg"), new File(null, "/pic3.jpeg"));
+        File picture1 = File.builder().path("/pic1.jpeg").build();
+        File picture2 = File.builder().path("/pic2.jpeg").build();
+        File picture3 = File.builder().path("/pic3.jpeg").build();
+        List<File> allPathsInPicturesDirectory = asList(picture1, picture2, picture3);
         given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
@@ -160,7 +172,9 @@ class AnalyzerTest {
         // Given
         String pathToPictureFile = "/users/me/pictures/pic1.jpeg";
         String pictureFileName = "pic1.jpeg";
-        List<File> allPathsInPicturesDirectory = singletonList(new File(pictureFileName, pathToPictureFile));
+        File pictureFile = File.builder().name(pictureFileName).path(pathToPictureFile).build();
+        List<File> allPathsInPicturesDirectory = singletonList(pictureFile);
+
         given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
