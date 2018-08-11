@@ -7,6 +7,8 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
@@ -59,5 +61,48 @@ class AnalyzerTest {
         // Then
         then(safeBox).should().upload(pathToFirstPicture);
         then(safeBox).should().upload(pathToSecondPicture);
+    }
+
+    @Test
+    void should_send_the_url_of_the_uploaded_picture_to_the_search_engine() {
+        // Given
+        String pathToPicture = "/users/me/pictures/top-secret.jpeg";
+        List<String> allPathsInPicturesDirectory = singletonList(pathToPicture);
+        given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
+                .willReturn(allPathsInPicturesDirectory);
+
+        String url = "https://foo.bar/my-uploaded-picture.png";
+        given(safeBox.upload(pathToPicture))
+                .willReturn(url);
+
+        // When
+        analyzer.index(PICTURES_DIRECTORY_PATH);
+
+        // Then
+        then(searchEngine).should().index(argThat(pictureContent -> pictureContent.getUrl().equals(url)));
+    }
+
+    @Test
+    void should_index_in_the_search_engine_the_urls_of_all_the_uploaded_pictures() {
+        // Given
+        List<String> allPathsInPicturesDirectory = asList("/pic1", "/pic2", "/pic3");
+        given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
+                .willReturn(allPathsInPicturesDirectory);
+
+        String url1 = "https://foo.bar/my-uploaded-picture1.png";
+        String url2 = "https://foo.bar/my-uploaded-picture2.png";
+        String url3 = "https://foo.bar/my-uploaded-picture3.png";
+        given(safeBox.upload(any()))
+                .willReturn(url1)
+                .willReturn(url2)
+                .willReturn(url3);
+
+        // When
+        analyzer.index(PICTURES_DIRECTORY_PATH);
+
+        // Then
+        then(searchEngine).should().index(argThat(pictureContent -> pictureContent.getUrl().equals(url1)));
+        then(searchEngine).should().index(argThat(pictureContent -> pictureContent.getUrl().equals(url2)));
+        then(searchEngine).should().index(argThat(pictureContent -> pictureContent.getUrl().equals(url3)));
     }
 }
