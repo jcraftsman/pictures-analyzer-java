@@ -40,7 +40,7 @@ class AnalyzerTest {
         File pictureFile = File.builder().path(pathToPicture).build();
         List<File> allPathsInPicturesDirectory = singletonList(pictureFile);
 
-        given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
+        given(finder.listFiles(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
         // When
@@ -58,7 +58,7 @@ class AnalyzerTest {
         File firstPicture = File.builder().path(pathToFirstPicture).build();
         File secondPicture = File.builder().path(pathToSecondPicture).build();
         List<File> allPathsInPicturesDirectory = asList(firstPicture, secondPicture);
-        given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
+        given(finder.listFiles(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
         // When
@@ -75,7 +75,7 @@ class AnalyzerTest {
         String pathToPicture = "/users/me/pictures/top-secret.jpeg";
         File pictureFile = File.builder().path(pathToPicture).build();
         List<File> allPathsInPicturesDirectory = singletonList(pictureFile);
-        given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
+        given(finder.listFiles(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
         String url = "https://foo.bar/my-uploaded-picture.png";
@@ -96,7 +96,7 @@ class AnalyzerTest {
         File picture2 = File.builder().path("/pic2").build();
         File picture3 = File.builder().path("/pic3").build();
         List<File> allPathsInPicturesDirectory = asList(picture1, picture2, picture3);
-        given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
+        given(finder.listFiles(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
         String url1 = "https://foo.bar/my-uploaded-picture1.png";
@@ -122,7 +122,7 @@ class AnalyzerTest {
         String pathToPictureFile = "/pic1.jpeg";
         File pictureFile = File.builder().path(pathToPictureFile).build();
         List<File> allPathsInPicturesDirectory = singletonList(pictureFile);
-        given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
+        given(finder.listFiles(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
         String textInPicture = "recognized text in the picture";
@@ -144,7 +144,7 @@ class AnalyzerTest {
         File picture2 = File.builder().path("/pic2.jpeg").build();
         File picture3 = File.builder().path("/pic3.jpeg").build();
         List<File> allPathsInPicturesDirectory = asList(picture1, picture2, picture3);
-        given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
+        given(finder.listFiles(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
         String textInPicture1 = "recognized text in the the first picture";
@@ -175,7 +175,7 @@ class AnalyzerTest {
         File pictureFile = File.builder().name(pictureFileName).path(pathToPictureFile).build();
         List<File> allPathsInPicturesDirectory = singletonList(pictureFile);
 
-        given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
+        given(finder.listFiles(PICTURES_DIRECTORY_PATH))
                 .willReturn(allPathsInPicturesDirectory);
 
         // When

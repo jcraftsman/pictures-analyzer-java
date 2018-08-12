@@ -15,7 +15,7 @@ public class Analyzer {
     }
 
     public void index(String picturesDirectoryPath) {
-        Iterable<File> pathsToFilesInDirectory = this.finder.listFilePaths(picturesDirectoryPath);
+        Iterable<File> pathsToFilesInDirectory = this.finder.listFiles(picturesDirectoryPath);
         for (File pictureFile : pathsToFilesInDirectory) {
             String pathToPicture = pictureFile.getPath();
             String publishedPictureUrl = this.safeBox.upload(pathToPicture);
