@@ -1,9 +1,6 @@
 package feature;
 
-import org.evolutionary.Analyzer;
-import org.evolutionary.PictureContent;
-import org.evolutionary.SafeBox;
-import org.evolutionary.SearchEngine;
+import org.evolutionary.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +28,9 @@ class IndexPictureContentFeature {
     void setUp() {
         searchEngine = mock(SearchEngine.class);
         safeBox = mock(SafeBox.class);
-        analyzer = new Analyzer(searchEngine, safeBox);
+        Finder localFilesFinder = new Finder();
+        OpticalCharacterRecognition opticalCharacterRecognition = new OpticalCharacterRecognition();
+        analyzer = new Analyzer(localFilesFinder, opticalCharacterRecognition, searchEngine, safeBox);
     }
 
     @Test
