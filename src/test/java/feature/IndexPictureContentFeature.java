@@ -1,5 +1,6 @@
 package feature;
 
+import net.sourceforge.tess4j.Tesseract;
 import org.evolutionary.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ class IndexPictureContentFeature {
     private static final String PICTURE_FILE_NAME = "top_secret.png";
     private static final String PATH_TO_A_PICTURE_FILE = Paths.get(PICTURES_DIRECTORY_PATH, PICTURE_FILE_NAME).toString();
     private static final String PUBLISHED_PICTURE_URL = "https://s3.eu-west-3.amazonaws.com/evolutionary-confidential/agent-phillip/top_secret.png";
+    private static final String TESSERACT_DATA_DIRECTORY_PATH = CLASS_LOADER.getResource("tesseract").getPath();
     private static final String TEXT_IN_PICTURE = "Rezidentura";
 
     private Analyzer analyzer;
@@ -29,7 +31,9 @@ class IndexPictureContentFeature {
         searchEngine = mock(SearchEngine.class);
         safeBox = mock(SafeBox.class);
         Finder localFilesFinder = new Finder();
-        OpticalCharacterRecognition opticalCharacterRecognition = new OpticalCharacterRecognition();
+        Tesseract tesseractInstance = new Tesseract();
+        tesseractInstance.setDatapath(TESSERACT_DATA_DIRECTORY_PATH);
+        OpticalCharacterRecognition opticalCharacterRecognition = new OpticalCharacterRecognition(tesseractInstance);
         analyzer = new Analyzer(localFilesFinder, opticalCharacterRecognition, searchEngine, safeBox);
     }
 
