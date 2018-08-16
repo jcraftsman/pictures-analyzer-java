@@ -10,11 +10,11 @@ import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-public class HttpSearchEngine implements SearchEngine {
+public class SearchEngineHttpClient implements SearchEngine {
 
     private final WebResource.Builder webResourceBuilder;
 
-    private HttpSearchEngine(WebResource.Builder webResourceBuilder) {
+    private SearchEngineHttpClient(WebResource.Builder webResourceBuilder) {
         this.webResourceBuilder = webResourceBuilder;
     }
 
@@ -23,8 +23,8 @@ public class HttpSearchEngine implements SearchEngine {
         webResourceBuilder.post(ClientResponse.class, pictureContent);
     }
 
-    public static HttpSearchEngine createInstance(String resourceUrl) {
-        return new HttpSearchEngine(createWebResourceBuilder(resourceUrl));
+    public static SearchEngineHttpClient createInstance(String resourceUrl) {
+        return new SearchEngineHttpClient(createWebResourceBuilder(resourceUrl));
     }
 
     private static WebResource.Builder createWebResourceBuilder(String resourceUrl) {

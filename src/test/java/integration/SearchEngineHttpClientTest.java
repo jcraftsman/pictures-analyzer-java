@@ -5,8 +5,8 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import integration.configuration.PictureContentDto;
 import integration.configuration.SearchEngineServerMock;
-import org.evolutionary.HttpSearchEngine;
 import org.evolutionary.PictureContent;
+import org.evolutionary.SearchEngineHttpClient;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jackson.JacksonFeature;
@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class HttpSearchEngineTest {
+class SearchEngineHttpClientTest {
 
     private static final String BASE_URI = "http://localhost:8080/api";
     private static final String RESOURCE_URL = BASE_URI + "/images";
@@ -33,7 +33,7 @@ class HttpSearchEngineTest {
 
     private static HttpServer server;
 
-    private HttpSearchEngine httpSearchEngine;
+    private SearchEngineHttpClient searchEngineHttpClient;
 
     @BeforeAll
     static void initAll() {
@@ -44,7 +44,7 @@ class HttpSearchEngineTest {
 
     @BeforeEach
     void setUp() {
-        httpSearchEngine = HttpSearchEngine.createInstance(RESOURCE_URL);
+        searchEngineHttpClient = SearchEngineHttpClient.createInstance(RESOURCE_URL);
     }
 
     @AfterAll
@@ -58,7 +58,7 @@ class HttpSearchEngineTest {
         PictureContent pictureContentToIndex = new PictureContent(PICTURE_NAME, PICTURE_URL, PICTURE_DESCRIPTION);
 
         // When
-        httpSearchEngine.index(pictureContentToIndex);
+        searchEngineHttpClient.index(pictureContentToIndex);
 
         // Then
         assertThat(getAllPictureContentsFromSearchEngine()).contains(pictureContentToIndex);
