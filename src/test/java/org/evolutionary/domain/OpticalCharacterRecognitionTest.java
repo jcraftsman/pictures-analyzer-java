@@ -1,4 +1,4 @@
-package org.evolutionary;
+package org.evolutionary.domain;
 
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.TesseractException;

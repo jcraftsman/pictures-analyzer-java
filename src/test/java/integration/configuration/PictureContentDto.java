@@ -2,7 +2,7 @@ package integration.configuration;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.evolutionary.PictureContent;
+import org.evolutionary.domain.PictureContent;
 
 @Data
 @NoArgsConstructor

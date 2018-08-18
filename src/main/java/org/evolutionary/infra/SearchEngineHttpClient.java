@@ -1,4 +1,4 @@
-package org.evolutionary;
+package org.evolutionary.infra;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -7,6 +7,8 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
+import org.evolutionary.domain.PictureContent;
+import org.evolutionary.domain.SearchEngine;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 

@@ -1,7 +1,8 @@
-package org.evolutionary;
+package org.evolutionary.infra;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
+import org.evolutionary.domain.SafeBox;
 
 import java.io.File;
 import java.net.URL;

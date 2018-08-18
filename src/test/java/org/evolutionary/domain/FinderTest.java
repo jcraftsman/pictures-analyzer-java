@@ -1,4 +1,4 @@
-package org.evolutionary;
+package org.evolutionary.domain;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,4 @@
-package org.evolutionary;
+package org.evolutionary.domain;
 
 public class Analyzer {
     private final Finder finder;

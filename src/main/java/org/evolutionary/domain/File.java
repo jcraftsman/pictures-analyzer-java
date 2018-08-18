@@ -1,4 +1,4 @@
-package org.evolutionary;
+package org.evolutionary.domain;
 
 import lombok.Builder;
 import lombok.Data;

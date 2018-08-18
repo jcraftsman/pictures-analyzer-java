@@ -1,7 +1,7 @@
 package feature;
 
 import net.sourceforge.tess4j.Tesseract;
-import org.evolutionary.*;
+import org.evolutionary.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

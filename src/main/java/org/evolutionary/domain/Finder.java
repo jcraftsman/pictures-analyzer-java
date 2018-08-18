@@ -1,4 +1,4 @@
-package org.evolutionary;
+package org.evolutionary.domain;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -3,6 +3,9 @@ package org.evolutionary;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import net.sourceforge.tess4j.Tesseract;
+import org.evolutionary.domain.*;
+import org.evolutionary.infra.S3SafeBox;
+import org.evolutionary.infra.SearchEngineHttpClient;
 
 import static net.sourceforge.tess4j.util.LoadLibs.extractTessResources;
 

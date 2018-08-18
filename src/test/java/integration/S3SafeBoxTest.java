@@ -3,7 +3,7 @@ package integration;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import integration.configuration.S3ServerMock;
-import org.evolutionary.S3SafeBox;
+import org.evolutionary.infra.S3SafeBox;
 import org.junit.jupiter.api.*;
 
 import java.nio.file.Paths;
