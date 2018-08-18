@@ -1,5 +1,6 @@
 package org.evolutionary;
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import net.sourceforge.tess4j.Tesseract;
 
@@ -17,19 +18,7 @@ public class Application {
         String safeBoxKeyPrefix = args[0];
         String pictureDirectoryPath = args[1];
 
-        String bucketName = System.getenv(S3_SAFE_BOX_BUCKET_NAME_KEY);
-        SafeBox safeBox = new S3SafeBox(bucketName, safeBoxKeyPrefix, AmazonS3ClientBuilder.defaultClient());
-
-        String searchEngineUrl = System.getenv(SEARCH_ENGINE_URL_KEY);
-        SearchEngine searchEngine = SearchEngineHttpClient.createInstance(searchEngineUrl);
-
-        Tesseract tesseractInstance = new Tesseract();
-        tesseractInstance.setDatapath(TESSERACT_DATA_DIRECTORY_PATH);
-        OpticalCharacterRecognition opticalCharacterRecognition = new OpticalCharacterRecognition(tesseractInstance);
-
-        Finder localFilesFinder = new Finder();
-
-        Analyzer analyzer = new Analyzer(localFilesFinder, opticalCharacterRecognition, searchEngine, safeBox);
+        Analyzer analyzer = bootstrap(safeBoxKeyPrefix);
 
         analyzer.index(pictureDirectoryPath);
     }
@@ -45,5 +34,22 @@ public class Application {
             System.out.println(USAGE);
             System.exit(1);
         }
+    }
+
+    private static Analyzer bootstrap(String safeBoxKeyPrefix) {
+        String bucketName = System.getenv(S3_SAFE_BOX_BUCKET_NAME_KEY);
+        AmazonS3 amazonS3Client = AmazonS3ClientBuilder.defaultClient();
+        SafeBox safeBox = new S3SafeBox(bucketName, safeBoxKeyPrefix, amazonS3Client);
+
+        String searchEngineUrl = System.getenv(SEARCH_ENGINE_URL_KEY);
+        SearchEngine searchEngine = SearchEngineHttpClient.createInstance(searchEngineUrl);
+
+        Tesseract tesseractInstance = new Tesseract();
+        tesseractInstance.setDatapath(TESSERACT_DATA_DIRECTORY_PATH);
+        OpticalCharacterRecognition opticalCharacterRecognition = new OpticalCharacterRecognition(tesseractInstance);
+
+        Finder localFilesFinder = new Finder();
+
+        return new Analyzer(localFilesFinder, opticalCharacterRecognition, searchEngine, safeBox);
     }
 }
