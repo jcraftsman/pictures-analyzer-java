@@ -41,6 +41,7 @@ dependencies {
     testCompile "org.mockito:mockito-core:2.+"
     testCompile group: 'org.glassfish.jersey.containers', name: 'jersey-container-grizzly2-http', version: '2.26-b03'
     testCompile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.26-b03'
+    testCompile group: 'org.gaul', name: 's3proxy', version: '1.6.0'
 }
 
 test {
