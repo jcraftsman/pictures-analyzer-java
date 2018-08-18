@@ -13,8 +13,11 @@ import org.jclouds.blobstore.BlobStoreContext;
 
 import java.net.URI;
 import java.util.Properties;
+import java.util.concurrent.Callable;
 
 import static com.amazonaws.regions.Regions.US_EAST_1;
+import static com.jayway.awaitility.Awaitility.await;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class S3ServerMock {
 
@@ -42,9 +45,7 @@ public class S3ServerMock {
 
     public void start() throws Exception {
         s3Proxy.start();
-        while (!s3Proxy.getState().equals(AbstractLifeCycle.STARTED)) {
-            Thread.sleep(1);
-        }
+        await().atMost(3, SECONDS).until(serverIsStarted());
     }
 
     public AmazonS3 buildS3Client() {
@@ -85,5 +86,9 @@ public class S3ServerMock {
                 .endpoint(ENDPOINT)
                 .build();
         return new S3ServerMock(storeContext, s3Proxy);
+    }
+
+    private Callable<Boolean> serverIsStarted() {
+        return () -> s3Proxy.getState().equals(AbstractLifeCycle.STARTED);
     }
 }
