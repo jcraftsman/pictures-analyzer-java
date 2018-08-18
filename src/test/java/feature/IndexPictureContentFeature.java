@@ -33,7 +33,7 @@ class IndexPictureContentFeature {
         Finder localFilesFinder = new Finder();
         Tesseract tesseractInstance = new Tesseract();
         tesseractInstance.setDatapath(TESSERACT_DATA_DIRECTORY_PATH);
-        OpticalCharacterRecognition opticalCharacterRecognition = new OpticalCharacterRecognition(tesseractInstance);
+        OpticalCharacterRecognition opticalCharacterRecognition = new TesseractOCR(tesseractInstance);
         analyzer = new Analyzer(localFilesFinder, opticalCharacterRecognition, searchEngine, safeBox);
     }
 

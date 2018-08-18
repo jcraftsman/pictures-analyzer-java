@@ -22,7 +22,7 @@ class OpticalCharacterRecognitionTest {
     @BeforeEach
     void setUp() {
         tesseractInstance = mock(ITesseract.class);
-        opticalCharacterRecognition = new OpticalCharacterRecognition(tesseractInstance);
+        opticalCharacterRecognition = new TesseractOCR(tesseractInstance);
     }
 
     @Test

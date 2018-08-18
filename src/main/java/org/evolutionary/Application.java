@@ -51,7 +51,7 @@ public class Application {
         Tesseract tesseractInstance = new Tesseract();
         String tesseractDataDirectoryPath = extractTessResources(TESSERACT_RESOURCES_FOLDER_NAME).getPath();
         tesseractInstance.setDatapath(tesseractDataDirectoryPath);
-        OpticalCharacterRecognition opticalCharacterRecognition = new OpticalCharacterRecognition(tesseractInstance);
+        OpticalCharacterRecognition opticalCharacterRecognition = new TesseractOCR(tesseractInstance);
 
         Finder localFilesFinder = new Finder();
 
