@@ -1,7 +1,8 @@
-package org.evolutionary.domain;
+package org.evolutionary.infra;
 
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.TesseractException;
+import org.evolutionary.domain.OpticalCharacterRecognition;
 
 import java.io.File;
 

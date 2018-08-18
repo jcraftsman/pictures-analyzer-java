@@ -1,4 +1,4 @@
-package org.evolutionary.domain;
+package org.evolutionary.infra;
 
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.TesseractException;
@@ -11,18 +11,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
-class OpticalCharacterRecognitionTest {
+class TesseractOCRTest {
 
     private static final String PATH_TO_PICTURE_FILE = "/my-secret-folder/picture.jpeg";
 
-    private OpticalCharacterRecognition opticalCharacterRecognition;
+    private TesseractOCR tesseractOCR;
 
     private ITesseract tesseractInstance;
 
     @BeforeEach
     void setUp() {
         tesseractInstance = mock(ITesseract.class);
-        opticalCharacterRecognition = new TesseractOCR(tesseractInstance);
+        tesseractOCR = new TesseractOCR(tesseractInstance);
     }
 
     @Test
@@ -33,7 +33,7 @@ class OpticalCharacterRecognitionTest {
         given(tesseractInstance.doOCR(pictureFile)).willReturn(ocrResultFromTesseract);
 
         // When
-        String recognizedText = opticalCharacterRecognition.imageToText(PATH_TO_PICTURE_FILE);
+        String recognizedText = tesseractOCR.imageToText(PATH_TO_PICTURE_FILE);
 
         // Then
         assertThat(recognizedText).isEqualTo(ocrResultFromTesseract);
@@ -46,7 +46,7 @@ class OpticalCharacterRecognitionTest {
         given(tesseractInstance.doOCR(pictureFile)).willReturn(" Confidential content  \n  ");
 
         // When
-        String recognizedText = opticalCharacterRecognition.imageToText(PATH_TO_PICTURE_FILE);
+        String recognizedText = tesseractOCR.imageToText(PATH_TO_PICTURE_FILE);
 
         // Then
         assertThat(recognizedText).isEqualTo("Confidential content");

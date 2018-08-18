@@ -6,6 +6,7 @@ import net.sourceforge.tess4j.Tesseract;
 import org.evolutionary.domain.*;
 import org.evolutionary.infra.S3SafeBox;
 import org.evolutionary.infra.SearchEngineHttpClient;
+import org.evolutionary.infra.TesseractOCR;
 
 import static net.sourceforge.tess4j.util.LoadLibs.extractTessResources;
 
